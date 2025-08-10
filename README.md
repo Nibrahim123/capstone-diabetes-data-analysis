@@ -1,72 +1,170 @@
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
-## Template Instructions
+# Diabetes Health Indicators Analysis
 
-Welcome,
+## Overview
 
-This is the Code Institute student template for the Data Analytics capstone project. We have preinstalled all of the tools you need to get started. It's perfectly okay to use this template as the basis for your project submissions. Click the `Use this template` button above to get started.
+This project analyses the 2015 Behavioral Risk Factor Surveillance System (BRFSS) Diabetes Health Indicators dataset from Kaggle to identify key patterns and risk factors for diabetes.
 
-You can safely delete the Template Instructions section of this README.md file and modify the remaining paragraphs for your own project. Please do read the Template Instructions at least once, though! It contains some important information about the IDE and the extensions we use.
+The objective is to generate actionable public health insights and build predictive models that can classify individuals’ diabetes risk based on health and lifestyle variables.
 
-## How to use this repo
+The work follows the full data analytics pipeline: Extract, Transform, Load (ETL) → Feature Engineering → Exploratory Data Analysis (EDA) → Hypothesis Testing → Machine Learning (ML) → Tableau Dashboard → Ethics & Governance.
 
-1. Use this template to create your GitHub project repo. Click the **Use this template** button, then click **Create a new repository**.
+## Dataset Content
+The dataset used is the 2015 Behavioral Risk Factor Surveillance System (BRFSS) Diabetes Health Indicators from Kaggle. It contains health and lifestyle survey data from over 250,000 respondents, including variables such as BMI, smoking status, physical activity, general health, mental health, and income.
 
-1. Copy the URL of your repository to your clipboard.
+This project uses:
 
-1. In VS Code, select **File** -> **Open Folder**.
+Full ML-ready dataset (combined_ml_ready.csv) — tracked using Git LFS due to size.
 
-1. Select your `vscode-projects` folder, then click the **Select Folder** button on Windows, or the **Open** button on Mac.
+Sample ML-ready dataset (combined_ml_ready_sample.csv) — created for testing and GitHub preview.
 
-1. From the top menu in VS Code, select **Terminal** > **New Terminal** to open the terminal.
+Cleaned dataset (combined_cleaned_final.csv) — contains human-readable feature names and values, with no missing data, and is fully suitable for hypothesis testing and EDA.
 
-1. In the terminal, type `git clone` followed by the URL of your GitHub repository. Then hit **Enter**. This command will download all the files in your GitHub repository into your vscode-projects folder.
+Raw data is anonymised, publicly available, and licensed for research purposes.
 
-1. In VS Code, select **File** > **Open Folder** again.
+## Business Requirements
+The primary business requirement is to identify the most significant health and lifestyle factors associated with diabetes to help public health analysts and policymakers develop targeted prevention strategies.
 
-1. This time, navigate to and select the folder for the project you just downloaded. Then, click **Select Folder**.
+Specifically, this project aims to:
 
-1. A virtual environment is necessary when working with Python projects to ensure each project's dependencies are kept separate from each other. You need to create your virtual environment, also called a venv, and then ensure that it is activated any time you return to your workspace.
-Click the gear icon in the lower left-hand corner of the screen to open the Manage menu and select **Command Palette** to open the VS Code command palette.
+Explore relationships between health indicators (BMI, smoking, physical activity, general health, etc.) and diabetes prevalence.
 
-1. In the command palette, type: *create environment* and select **Python: Create Environment…**
+Statistically validate whether these relationships are significant.
 
-1. Choose **Venv** from the dropdown list.
+Build a predictive model to estimate diabetes risk based on health indicators.
 
-1. Choose the Python version you installed earlier. Currently, we recommend Python 3.12.8
+Present results in an interactive Tableau dashboard for both technical and non-technical audiences.
 
-1. **DO NOT** click the box next to `requirements.txt`, as you need to do more steps before you can install your dependencies. Click **OK**.
+## Hypothesis and How to Validate Them
+(To be completed after EDA stage)
 
-1. You will see a `.venv` folder appear in the file explorer pane to show that the virtual environment has been created.
+## Project Plan
 
-1. **Important**: Note that the `.venv` folder is in the `.gitignore` file so that Git won't track it.
+High-level Steps Taken so Far:
 
-1. Return to the terminal by clicking on the TERMINAL tab, or click on the **Terminal** menu and choose **New Terminal** if no terminal is currently open.
+1- ETL
 
-1. In the terminal, use the command below to install your dependencies. This may take several minutes.
+Imported raw BRFSS datasets from Kaggle.
 
- ```console
- pip3 install -r requirements.txt
- ```
+Merged and cleaned data, removed duplicates, and standardised column names.
 
-1. Open the `jupyter_notebooks` directory, and click on the notebook you want to open.
+Checked for missing values and confirmed dataset completeness.
 
-1. Click the **kernel** button and choose **Python Environments**.
+Saved cleaned output as combined_cleaned_final.csv — this file contains human-readable features and is ready for hypothesis testing and EDA.
 
-Note that the kernel says `Python 3.12.8` as it inherits from the venv, so it will be Python-3.12.8 if that is what is installed on your PC. To confirm this, you can use the command below in a notebook code cell.
+2- Feature Engineering
 
-```console
-! python --version
-```
+Encoded categorical features using One-Hot and Label Encoding.
 
-## Deployment Reminders
+Scaled numerical features for machine learning.
 
-* Set the `.python-version` Python version to a [Heroku-22](https://devcenter.heroku.com/articles/python-support#supported-runtimes) stack currently supported version that closest matches what you used in this project.
-* The project can be deployed to Heroku using the following steps.
+Created a data dictionary for all processed features.
 
-1. Log in to Heroku and create an App
-2. At the **Deploy** tab, select **GitHub** as the deployment method.
-3. Select your repository name and click **Search**. Once it is found, click **Connect**.
-4. Select the branch you want to deploy, then click **Deploy Branch**.
-5. The deployment process should happen smoothly if all deployment files are fully functional. Click the button **Open App** at the top of the page to access your App.
-6. If the slug size is too large, then add large files not required for the app to the `.slugignore` file.
+Saved ML-ready datasets:
+
+combined_ml_ready.csv (full version)
+
+combined_ml_ready_sample.csv (small preview version for GitHub)
+
+## Data Management Practices:
+Large datasets tracked with Git LFS.
+
+Version-controlled outputs at each stage (cleaned, ml_ready, sample).
+
+Documented transformations for reproducibility.
+
+## Methodology Rationale:
+Selected survey-based dataset for public health relevance.
+
+Used encoding and scaling to prepare data for classification models.
+
+Generated a sample dataset to support reproducibility and reduce repository size.
+
+## The Rationale to Map the Business Requirements to the Data Visualisations
+(To be completed after EDA & Tableau dashboard design)
+
+## Analysis Techniques Used
+Completed:
+* Data Cleaning: Removed duplicates, standardised column names, ensured consistent data types.
+
+* Feature Engineering: Encoding categorical variables, scaling numeric features.
+
+* Preliminary ML Testing: Logistic Regression for initial accuracy benchmark.
+
+Limitations:
+* Class imbalance (non-diabetic vs diabetic respondents).
+
+* Dataset from 2015 — potential limitations in real-world application today.
+
+AI Tools:
+* Used AI assistance to generate code explanations, improve markdown documentation, and plan project structure.
+
+# Ethical Considerations
+(To be completed — will include privacy, bias, and governance considerations)
+
+# Dashboard Design
+(To be completed after Tableau dashboard is built)
+
+# Unfixed Bugs
+(To be completed — will include any unresolved code issues or dashboard display limitations)
+
+# Development Roadmap
+1- Perform EDA in Python and export summary tables for Tableau.
+
+2- Define and test hypotheses statistically.
+
+3- Train and evaluate multiple ML classification models.
+
+4- Build Tableau dashboards with ≥4 chart types answering business requirements.
+
+5- Document ethics and governance considerations.
+
+6- Finalise README with all completed sections.
+
+# Deployment
+This project does not use Heroku as the final dashboard will be built in Tableau Public. Deployment instructions will instead cover publishing to Tableau Public.
+
+# Main Data Analysis Libraries
+These were the primary tools used for data cleaning, transformation, analysis, and modelling:
+
+* pandas — Data loading, cleaning, transformation, and manipulation.
+
+* numpy — Numerical operations and array manipulation.
+
+* matplotlib — Static visualisations for EDA and results presentation.
+
+* seaborn — Statistical visualisations such as correlation heatmaps and boxplots.
+
+* scikit-learn — Feature encoding, scaling, model training, and evaluation.
+
+* plotly (planned for EDA) — Interactive visualisations for deeper exploration.
+
+* Tableau Public (planned for final stage) — Interactive dashboard creation and presentation of insights.
+
+# Additional Libraries Used
+These supported project setup, file management, and workflow:
+
+os — For file path handling and directory operations.
+
+# Credits
+
+Content:
+
+* Dataset: Kaggle – Diabetes Health Indicators- https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset
+
+* Code Institute tutor guidance
+
+* AI assistance:
+
+1- ChatGPT — for project planning, code explanation, documentation drafting, and workflow structuring.
+
+2- GitHub Copilot — for code suggestions, code refinement, optimisation, and syntax completion during development.
+
+# Media:
+
+All visuals created in Python or Tableau during project development.
+
+# Acknowledgements:
+Special thanks to tutors, peers, and Code Institute resources for feedback and support.
+
