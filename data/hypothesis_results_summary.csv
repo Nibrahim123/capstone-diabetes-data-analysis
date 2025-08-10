@@ -1,0 +1,18 @@
+hypothesis,question,test,p,effect_value,effect_note,Significant_0.05,Significant_Bonferroni_0.01,notes
+H1,Smoking is associated with diabetes.,Chi-square (Smoker x Diabetes_binary),0.0,0.24374009231117402,Small,True,True,"Smoker              0.0     1.0
+Diabetes_binary                
+0.0              247394  210724
+1.0               33748   36446"
+H2,BMI differs between diabetic and non-diabetic respondents.,Mann–Whitney U (BMI by Diabetes_binary),0.0,-0.32377932042043445,direction & magnitude shown by rank-biserial,True,True,"n_diab=70194, n_nodiab=458118"
+H3,Physical activity is associated with diabetes.,Chi-square (PhysActivity x Diabetes_binary),0.0,0.24374009231117402,Small,True,True,"PhysActivity        0.0     1.0
+Diabetes_binary                
+0.0              117414  340704
+1.0               26076   44118"
+H4,High blood pressure is associated with diabetes.,Chi-square (HighBP x Diabetes_binary),0.0,0.24374009231117402,Small,True,True,"HighBP              0.0     1.0
+Diabetes_binary                
+0.0              262799  195319
+1.0               17384   52810"
+H5,General health status is associated with diabetes.,Chi-square (GenHlth x Diabetes_binary),0.0,0.24374009231117402,Small,True,True,"GenHlth            1.0     2.0     3.0    4.0    5.0
+Diabetes_binary                                     
+0.0              75098  161446  143944  56821  20809
+1.0               2270   12560   26648  19562   9154"
