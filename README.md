@@ -78,6 +78,14 @@ Present results in an interactive Tableau dashboard for both technical and non-t
 **Mapped visual(s):** All visuals above with accessible titles, legends, tooltips, and filters  
 **Mapped data:** `data/combined_cleaned_final.csv`
 
+## Agile user stories
+
+**As a Public Health Analyst (Amelia),** I want to explore diabetes prevalence across age groups and BMI distributions, **so that** I can target prevention programmes at the highest-risk segments.
+
+**As a Policy Planner (Ravi),** I want to compare diabetes prevalence across modifiable behaviours (physical activity, smoking, high blood pressure), **so that** I can prioritise effective prevention messaging and resource allocation.
+
+**As a Programme Lead (Grace),** I want a clear, accessible dashboard with readable labels, meaningful tooltips, and simple filters, **so that** non-technical stakeholders can quickly understand insights and make informed decisions.
+
 ## Hypothesis and How to Validate Them
 Following the EDA, we formalised five hypotheses focused on lifestyle/health factors and diabetes status.  
 All tests use the cleaned, human-readable dataset: `data/combined_cleaned_final.csv`.  
