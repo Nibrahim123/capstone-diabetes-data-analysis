@@ -36,8 +36,119 @@ Build a predictive model to estimate diabetes risk based on health indicators.
 
 Present results in an interactive Tableau dashboard for both technical and non-technical audiences.
 
+## User Stories
+
+### Story 1 — Amelia, Public Health Analyst
+**As** Amelia (Public Health Analyst), **I want** to see how diabetes prevalence varies by age and BMI, **so that** I can target prevention programmes to the highest-risk groups.
+
+**Acceptance criteria**
+- **Given** the dashboard is open, **when** I select an **Age** group, **then** I see **diabetes prevalence (%)** update for that group.
+- **Given** the **BMI vs Diabetes** chart, **when** I compare diabetics vs non-diabetics, **then** I can see a **clear difference in median and spread** (boxplot line/whiskers + tooltip).
+- **Given** a **Sex** filter, **when** I apply it, **then** both visuals update with correct counts and percentages.
+
+**Mapped visual(s):**  
+- **Bar chart:** Age vs Diabetes Prevalence (%)  
+- **Boxplot:** BMI by Diabetes status (No/Yes)  
+
+**Mapped data:** `data/combined_cleaned_final.csv`
+
+
+### Story 2 — Ravi, Policy Planner
+**As** Ravi (Policy Planner), **I want** to understand how modifiable behaviours relate to diabetes (physical activity, smoking, high blood pressure), **so that** I can prioritise prevention messaging.
+
+**Acceptance criteria**
+- **Given** the **HighBP vs Diabetes** view, **when** I hover a bar, **then** the tooltip shows **count** and **% diabetic** for that category (Yes/No).
+- **Given** the **PhysActivity × Smoker** view, **when** I read the cells, **then** each shows **diabetes prevalence (%)** and I can **spot the highest-risk combination** at a glance.
+- **Given** the **Sex** filter, **when** I change it, **then** both visuals **recalculate correctly**.
+
+**Mapped visual(s):**  
+- **100% Stacked Bar:** HighBP (Yes/No) split by Diabetes (Yes/No)  
+- **Heatmap (Highlight Table):** Diabetes Prevalence (%) by PhysActivity (Yes/No) × Smoker (Yes/No)  
+
+**Mapped data:** `data/combined_cleaned_final.csv`
+
+### Story 3 — Grace, Programme Lead
+**As** Grace (Programme Lead), **I want** the dashboard to communicate insights clearly to non-technical stakeholders, **so that** decisions can be made quickly.
+
+**Acceptance criteria**
+- **Given** any chart, **when** I hover a mark, **then** the tooltip explains metrics in **plain English** (e.g., “% with diabetes”) and shows counts.
+- **Given** the dashboard on a laptop, **when** I view titles/axes/legends, **then** text is **readable** with **high-contrast** colours and no truncation.
+- **Given** filters are applied, **when** I look at chart titles, **then** the **active filter context** is visible (e.g., “Sex: Female”).
+
+**Mapped visual(s):** All visuals above with accessible titles, legends, tooltips, and filters  
+**Mapped data:** `data/combined_cleaned_final.csv`
+
 ## Hypothesis and How to Validate Them
-(To be completed after EDA stage)
+Following the EDA, we formalised five hypotheses focused on lifestyle/health factors and diabetes status.  
+All tests use the cleaned, human-readable dataset: `data/combined_cleaned_final.csv`.  
+Target variable: **`Diabetes_binary`** (0 = No, 1 = Yes). We report both **statistical significance** and **effect size**.
+
+> **Decision rules:** primary α = 0.05; we also report a Bonferroni-adjusted threshold of 0.01 (for 5 tests) to guard against multiple comparisons.
+
+---
+
+### H1 — Smoking and Diabetes
+- **Question:** Are smokers more likely to have diabetes than non-smokers?
+- **Variables:** `Smoker` (0/1) vs `Diabetes_binary` (0/1)
+- **H0:** Smoking status is independent of diabetes.  
+  **H1:** Smoking status is associated with diabetes.
+- **Test:** Chi-square test of independence  
+  **Effect size:** Cramér’s V
+- **Validation procedure:** Build a 2×2 contingency table (`pd.crosstab`), run Chi-square, compute Cramér’s V; record p-value and effect size.
+- **Status:** *Tested* → see `data/hypothesis_results_summary.csv`.
+
+### H2 — BMI and Diabetes
+- **Question:** Do BMI values differ between diabetic and non-diabetic respondents?
+- **Variables:** `BMI` (numeric) vs `Diabetes_binary` (0/1)
+- **H0:** BMI distributions are the same across groups.  
+  **H1:** BMI distributions differ.
+- **Test:** Mann–Whitney U (non-parametric)  
+  **Effect size:** Rank-biserial correlation (direction & magnitude)
+- **Validation procedure:** Split `BMI` by outcome, run Mann–Whitney U, compute rank-biserial; report medians and n per group.
+- **Status:** *Tested* → see `data/hypothesis_results_summary.csv`.
+
+### H3 — Physical Activity and Diabetes
+- **Question:** Do physically active respondents have different diabetes prevalence than inactive respondents?
+- **Variables:** `PhysActivity` (0/1) vs `Diabetes_binary` (0/1)
+- **H0:** Physical activity is independent of diabetes.  
+  **H1:** Physical activity is associated with diabetes.
+- **Test:** Chi-square test of independence  
+  **Effect size:** Cramér’s V
+- **Validation procedure:** 2×2 crosstab, Chi-square, Cramér’s V; record p-value and effect size.
+- **Status:** *Tested* → see `data/hypothesis_results_summary.csv`.
+
+### H4 — High Blood Pressure and Diabetes
+- **Question:** Is high blood pressure associated with diabetes?
+- **Variables:** `HighBP` (0/1) vs `Diabetes_binary` (0/1)
+- **H0:** High blood pressure is independent of diabetes.  
+  **H1:** High blood pressure is associated with diabetes.
+- **Test:** Chi-square test of independence  
+  **Effect size:** Cramér’s V
+- **Validation procedure:** 2×2 crosstab, Chi-square, Cramér’s V; record p-value and effect size.
+- **Status:** *Tested* → see `data/hypothesis_results_summary.csv`.
+
+### H5 — Age Group and Diabetes
+- **Question:** Does diabetes prevalence differ across age groups?
+- **Variables:** `Age` (ordered categories) vs `Diabetes_binary` (0/1)
+- **H0:** Diabetes prevalence is the same across age groups.  
+  **H1:** Diabetes prevalence differs across age groups.
+- **Test:** Chi-square across categories (treat `Age` as categorical)  
+  **Effect size:** Cramér’s V
+- **Validation procedure:** Crosstab (`Age` × outcome), Chi-square, Cramér’s V; also compute prevalence by `Age` for interpretation.
+- **Status:** *Tested* (optional to visualise) → see `data/hypothesis_results_summary.csv`.
+
+---
+
+### Outputs & Traceability
+- A consolidated results file is exported for transparency and dashboarding:  
+  **`data/hypothesis_results_summary.csv`** → includes hypothesis ID, test used, p-value (`p`), effect size (`effect_value`), interpretation (`effect_note`), and notes.
+- These hypotheses directly inform the planned Tableau visuals:
+  - **Bar:** Age vs Diabetes Prevalence (%) → *H5*
+  - **Boxplot:** BMI by Diabetes status → *H2*
+  - **100% Stacked Bar:** HighBP split by Diabetes → *H4*
+  - **Heatmap (Highlight Table):** PhysActivity × Smoker prevalence → *H1 & H3 combined context*
+
+> **Interpretation note:** We distinguish between “statistically significant” and “practically meaningful.” Where effect sizes are negligible/small, we avoid over-claiming and rely on multivariate ML models for richer patterns.
 
 ## Project Plan
 
@@ -101,10 +212,87 @@ AI Tools:
 * Used AI assistance to generate code explanations, improve markdown documentation, and plan project structure.
 
 # Ethical Considerations
-(To be completed — will include privacy, bias, and governance considerations)
+### 1) Data privacy & governance
+- **Source & identifiability:** This project uses a publicly available, de-identified survey dataset (BRFSS 2015, via Kaggle). No direct personal identifiers are included.  
+- **Data minimisation:** Only fields necessary for analysis were retained; derived/aggregated outputs are shared (e.g., charts, summary CSVs).  
+- **Repository hygiene:** No sensitive credentials or private data are stored in the repo. Large raw files are avoided; only the cleaned dataset required for reproducibility is included.  
+- **GDPR mindset (good practice):** Although data are de-identified, we follow the principles of **lawfulness, fairness, transparency**, **data minimisation**, **storage limitation**, and **integrity/confidentiality**.
+
+### 2) Bias, fairness & representativeness
+- **Sampling bias:** BRFSS is a telephone survey. Certain groups may be under/over-represented; results may not perfectly reflect the entire population.  
+- **Weights not applied:** Unless survey weights are applied, reported prevalence is **dataset-level**, not a population estimate. The dashboard will phrase results accordingly (e.g., “in this dataset”).  
+- **Self-report bias:** Health behaviours (e.g., smoking, physical activity) are self-reported and can suffer from recall or social desirability bias.  
+- **Model fairness:** Predictive performance can vary across subgroups (e.g., Sex, Age). We plan to **slice metrics by subgroup** (recall, precision) to check for disparities and document them in the report/dashboard.
+
+### 3) Appropriate use & harm reduction
+- **No clinical use:** The dashboard and models are **educational** and **exploratory**; they are **not** medical devices and must not be used for diagnosis or treatment decisions.  
+- **Association ≠ causation:** The dataset is cross-sectional. Hypothesis tests and models show associations, **not** causal effects.  
+- **Threshold trade-offs:** Classification thresholds affect false positives/negatives. Any recommended threshold should be motivated by the chosen objective (e.g., prioritising recall to reduce missed high-risk cases) and clearly communicated.  
+- **Transparency:** We report model metrics (Accuracy, Precision, Recall, F1, ROC-AUC) and provide plain-English summaries so non-technical readers understand limitations.
+
+### 4) Governance, licensing & attribution
+- **Attribution:** Dataset source and tools (e.g., Python libraries, AI assistants) are credited in the *Credits* section.  
+- **Permissible use:** Data are used for non-commercial, educational purposes in line with the source’s terms.  
+- **Version control:** Changes are tracked via Git with meaningful commit messages to ensure accountability and reproducibility.
+
+### 5) What we implemented in this project
+- Used a **cleaned, de-identified** dataset and stored only what’s required for reproducibility.  
+- Reported **statistical significance and effect sizes** to avoid over-claiming results.  
+- Compared multiple models and exported metrics transparently; avoided presenting predictions as clinical advice.  
+- Ensured dashboard copy will state “**in this dataset**” and avoid population-level claims unless weights are applied.
+
+### 6) Planned before submission (quality checks)
+- Add a short **disclaimer card** on the dashboard (educational use, association ≠ causation).  
+- **Subgroup fairness check:** compute and document model metrics by Sex and Age bands; comment on any notable disparities.  
+- Review colour choices and labels for **accessibility** (high contrast, no red/green dependence, readable titles/tooltips).
 
 # Dashboard Design
-(To be completed after Tableau dashboard is built)
+
+## Dashboard Design (Tableau)
+
+**Data source:** `data/combined_cleaned_final.csv` (single source for all visuals)  
+**Global filters:** Sex (optional), Age (optional)  
+**Prevalence calculation:** create a calculated field `Diabetes Prevalence % = AVG([Diabetes_binary]) * 100` (since 0/1). Show counts in tooltips.
+
+### Planned visuals (4 distinct types)
+
+1) **Age vs Diabetes Prevalence (%) — Bar chart**
+   - Columns: Age (ordered category)
+   - Rows: `Diabetes Prevalence %`
+   - Marks: Bar; show % labels; tooltip includes count and %
+   - *Maps to Amelia*
+
+2) **BMI Distribution by Diabetes Status — Boxplot**
+   - Columns: Diabetes_binary (alias to No/Yes)
+   - Rows: BMI
+   - Marks: Box-and-whisker; tooltip shows median, IQR, n
+   - *Maps to Amelia*
+
+3) **High Blood Pressure vs Diabetes — 100% Stacked Bar**
+   - Columns: HighBP (No/Yes)
+   - Color: Diabetes_binary (No/Yes)
+   - Quick table calc: Percent of Column; show % labels
+   - *Maps to Ravi*
+
+4) **PhysActivity × Smoker — Diabetes Prevalence (%) Heatmap**
+   - Columns: Smoker (No/Yes)
+   - Rows: PhysActivity (No/Yes)
+   - Text/Color: `Diabetes Prevalence %`
+   - Marks: Square (highlight table); show % labels
+   - *Maps to Ravi*
+
+### UX & accessibility
+- Plain-English titles (e.g., “Diabetes Prevalence by Age (%)”).
+- High-contrast palette; avoid red/green.
+- Tooltips explain metrics (“% with diabetes”) and show counts.
+- Titles display active filter context (e.g., “Sex: Female”).
+
+**Ethical notice on dashboard**
+A small disclaimer card is displayed on the dashboard:
+“Educational use only. Association ≠ causation. Not medical advice.
+BRFSS 2015 (self-reported, de-identified); unweighted percentages.”
+
+Rationale: Communicates dataset limits and appropriate use to non-technical audiences. 
 
 # Unfixed Bugs
 (To be completed — will include any unresolved code issues or dashboard display limitations)
