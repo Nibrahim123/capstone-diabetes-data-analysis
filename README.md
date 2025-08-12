@@ -320,6 +320,8 @@ BRFSS 2015 (self-reported, de-identified); unweighted percentages.”
 Rationale: Communicates dataset limits and appropriate use to non-technical audiences. 
 
 # Tableau Dashboards
+The dashboards were published separately because Tableau Public only allows one dashboard per published workbook, so an Overview and Detailed Analysis dashboard had to be created and published as two individual workbooks.
+
 To view the interactive visualisations built for this project:
 
 Diabetes Analysis Overview — High-level summary of key insights, KPIs (Total Respondents, Diabetes Prevalence), and context for the analysis- https://public.tableau.com/app/profile/nasra.ibrahim/viz/DiabetesAnalysisOverview/Overview 
