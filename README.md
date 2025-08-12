@@ -160,31 +160,46 @@ Target variable: **`Diabetes_binary`** (0 = No, 1 = Yes). We report both **stati
 
 ## Project Plan
 
-High-level Steps Taken so Far:
+**Overview of Key Steps Completed**
 
-1- ETL
+### 1 – ETL (Extract, Transform, Load)  
+- Extracted the 2015 BRFSS Diabetes Health Indicators dataset from Kaggle.  
+- Merged datasets, removed duplicates, and standardized column names for consistency.  
+- Cleaned the data by addressing invalid values (e.g., replacing “0” in medically impossible fields), validating completeness, and renaming fields to human-friendly labels.  
+- Saved the cleaned output as `combined_cleaned_final.csv` for downstream EDA and hypothesis testing.
 
-Imported raw BRFSS datasets from Kaggle.
+### 2 – Feature Engineering  
+- Encoded categorical variables: Label Encoding for binaries, One-Hot for multi-category features.  
+- Scaled numeric features (e.g., BMI, glucose) for machine learning readiness.  
+- Documented all features in a data dictionary for transparency.  
+- Produced two ML-ready datasets:  
+  - `combined_ml_ready.csv` (full)  
+  - `combined_ml_ready_sample.csv` (smaller preview for GitHub use)
 
-Merged and cleaned data, removed duplicates, and standardised column names.
+### 3 – Exploratory Data Analysis (EDA) & Hypothesis Testing  
+- Conducted visualisation and summary statistics to identify patterns (e.g., age bands, BMI distributions, prevalence trends).  
+- Mapped business hypotheses (e.g., associations between smoking, activity, BP and diabetes) to appropriate statistical tests:  
+  - Chi-square tests for categorical relationships  
+  - Mann–Whitney U for BMI distribution differences  
+- Recorded p-values and effect sizes (e.g., Cramér’s V, rank-biserial) in `hypothesis_results_summary.csv` for transparency.
 
-Checked for missing values and confirmed dataset completeness.
+### 4 – Machine Learning Modeling  
+- Split data into training and test sets (e.g., 80/20 split).  
+- Evaluated multiple classifiers: Logistic Regression, Random Forest, and others.  
+- Assessed performance using metrics such as Accuracy, Precision, Recall, F1-score, and ROC-AUC.  
+- Compared models and documented findings (report or notebook summary).
 
-Saved cleaned output as combined_cleaned_final.csv — this file contains human-readable features and is ready for hypothesis testing and EDA.
-
-2- Feature Engineering
-
-Encoded categorical features using One-Hot and Label Encoding.
-
-Scaled numerical features for machine learning.
-
-Created a data dictionary for all processed features.
-
-Saved ML-ready datasets:
-
-combined_ml_ready.csv (full version)
-
-combined_ml_ready_sample.csv (small preview version for GitHub)
+### 5 – Tableau Dashboard Development  
+- Built an interactive dashboard using produced charts and KPIs:  
+  - “Total Respondents” and “Diabetes Prevalence (%)” KPI tiles  
+  - Age vs Diabetes Prevalence bar chart  
+  - BMI Box Plot by Diabetes status  
+  - High Blood Pressure vs Diabetes (100% stacked bar)  
+  - Smoking × Physical Activity heatmap (prevalence highlight table)  
+- Incorporated global filters (Sex, Age), accessible tooltips, high-contrast palettes, and ethical disclaimers.  
+- Published two dashboard views on Tableau Public:  
+  - **[Overview](https://public.tableau.com/app/profile/nasra.ibrahim/viz/DiabetesAnalysisOverview/Overview)**  
+  - **[Main Analysis Dashboard](https://public.tableau.com/app/profile/nasra.ibrahim/viz/DiabetesAnalysisDashboard_17549758193010/DiabetesAnalysisDashboard)**
 
 ## Data Management Practices:
 Large datasets tracked with Git LFS.
@@ -201,7 +216,9 @@ Used encoding and scaling to prepare data for classification models.
 Generated a sample dataset to support reproducibility and reduce repository size.
 
 ## The Rationale to Map the Business Requirements to the Data Visualisations
-(To be completed after EDA & Tableau dashboard design)
+
+The Tableau visuals were designed to directly address the project's business requirements and agile user stories.  
+Each visual provides a clear link between the analytical goals and the dataset’s available features.
 
 ## Analysis Techniques Used
 Completed:
@@ -302,8 +319,19 @@ BRFSS 2015 (self-reported, de-identified); unweighted percentages.”
 
 Rationale: Communicates dataset limits and appropriate use to non-technical audiences. 
 
+# Tableau Dashboards
+To view the interactive visualisations built for this project:
+
+Diabetes Analysis Overview — High-level summary of key insights, KPIs (Total Respondents, Diabetes Prevalence), and context for the analysis- https://public.tableau.com/app/profile/nasra.ibrahim/viz/DiabetesAnalysisOverview/Overview 
+
+Main Analysis Dashboard — Detailed interactive dashboard answering the defined business requirements and user stories- https://public.tableau.com/app/profile/nasra.ibrahim/viz/DiabetesAnalysisDashboard_17549758193010/DiabetesAnalysisDashboard
+
 # Unfixed Bugs
-(To be completed — will include any unresolved code issues or dashboard display limitations)
+- **GitHub large file limit:** Full dataset (`combined_ml_ready.csv`) tracked with Git LFS but cannot be previewed in GitHub.
+- **Tableau KPI formatting:** Titles and percentage alignment required multiple adjustments; some minor misalignment may still occur.
+- **Title truncation in Tableau:** Longer titles can be cut off in published view on smaller screens.
+- **Separate dashboards:** Overview and Main Dashboard are published separately; could be combined into a Tableau Story for smoother navigation.
+- **Mobile responsiveness:** Some visuals may require scrolling or lose detail on smaller devices.
 
 # Development Roadmap
 1- Perform EDA in Python and export summary tables for Tableau.
